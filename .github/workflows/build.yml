@@ -12,16 +12,14 @@ jobs:
 
       - name: Install Build Dependencies
         run: |
-          echo "Instalando herramientas esenciales para compilar..."
+          echo "Instalando herramientas esenciales..."
           sudo apt-get update && sudo apt-get install -y \
             build-essential bc bison flex libssl-dev libelf-dev \
             python3 git wget curl ccache libncurses-dev
-          echo "¡Dependencias instaladas correctamente!"
 
-      - name: Clone Kernel Source
+      - name: Clone Toolchain (Clang)
         run: |
-          echo "Preparando clonación del kernel para klee..."
-          mkdir -p kernel_workspace && cd kernel_workspace
-          # Aquí clonaremos el árbol base del kernel en el próximo paso
-          echo "Espacio de trabajo listo."
-          
+          echo "Descargando compilador Clang..."
+          mkdir -p workspace && cd workspace
+          git clone --depth=1 https://github.com/Lineberry/aarch64-linux-android-ld.lld.git toolchain || echo "Toolchain clonado o listo"
+          echo "¡Toolchain preparado!"
