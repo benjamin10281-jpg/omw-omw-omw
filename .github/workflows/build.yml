@@ -1,0 +1,16 @@
+name: Build POCO X8 Pro Kernel with SuSFS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Environment
+        run: |
+          echo "Preparando entorno de compilación para MediaTek..."
+          sudo apt-get update && sudo apt-get install -y bc bison flex libssl-dev libelf-dev python3 git
