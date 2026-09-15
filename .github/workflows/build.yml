@@ -17,4 +17,11 @@ jobs:
             build-essential bc bison flex libssl-dev libelf-dev \
             python3 git wget curl ccache libncurses-dev
           echo "¡Dependencias instaladas correctamente!"
+
+      - name: Clone Kernel Source
+        run: |
+          echo "Preparando clonación del kernel para klee..."
+          mkdir -p kernel_workspace && cd kernel_workspace
+          # Aquí clonaremos el árbol base del kernel en el próximo paso
+          echo "Espacio de trabajo listo."
           
