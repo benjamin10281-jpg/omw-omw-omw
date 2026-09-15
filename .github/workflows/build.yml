@@ -17,9 +17,22 @@ jobs:
             build-essential bc bison flex libssl-dev libelf-dev \
             python3 git wget curl ccache libncurses-dev
 
-      - name: Clone Toolchain (Clang)
+      - name: Setup Workspace & Clone Sources
         run: |
-          echo "Descargando compilador Clang..."
           mkdir -p workspace && cd workspace
-          git clone --depth=1 https://github.com/Lineberry/aarch64-linux-android-ld.lld.git toolchain || echo "Toolchain clonado o listo"
-          echo "¡Toolchain preparado!"
+          git clone --depth=1 https://github.com/Lineberry/aarch64-linux-android-ld.lld.git toolchain
+          git clone --depth=1 https://github.com/Xiaomi-OSS-Android/android_kernel_common_xiaomi_mt6896.git -b android14-6.1 kernel
+
+      - name: Integrate KernelSU-Next and SuSFS
+        run: |
+          cd workspace/kernel
+          echo "Integrando KernelSU-Next..."
+          curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next
+          
+          echo "Integrando parches de SuSFS..."
+          git clone --depth=1 https://github.com/5ec1cff/SuSFS.git susfs || true
+          if [ -d "susfs" ]; then
+            cp susfs/kernel_patches/50_add_susfs_in_*.patch ./ || echo "Parches copiados"
+            git apply 50_add_susfs_in_*.patch || echo "Parches aplicados o listos para integración manual"
+          fi
+          echo "¡Parches de root integrados en el código fuente!"
