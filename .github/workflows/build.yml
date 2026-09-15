@@ -7,10 +7,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Environment
+      - name: Install Build Dependencies
         run: |
-          echo "Preparando entorno de compilación para MediaTek..."
-          sudo apt-get update && sudo apt-get install -y bc bison flex libssl-dev libelf-dev python3 git
+          echo "Instalando herramientas esenciales para compilar..."
+          sudo apt-get update && sudo apt-get install -y \
+            build-essential bc bison flex libssl-dev libelf-dev \
+            python3 git wget curl ccache libncurses-dev
+          echo "¡Dependencias instaladas correctamente!"
+          
